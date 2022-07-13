@@ -79,13 +79,12 @@ const CarPreview = (props: CarPreview) => {
 }
 
 const CarDetails: NextPage = ({ car }: any) => {
-
     const carIdentifier = `${car.make} ${car.model} ${car.year}`
 
     return (
         <Container sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }} className={styles.container}>
             <Head>
-                <title>{carIdentifier} Details - Car Shop</title>
+                <title>Details - Car Shop</title>
                 <meta name="description" content="" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
@@ -145,8 +144,12 @@ export async function getStaticProps({ params }: any) {
 export const getStaticPaths: GetStaticPaths<{ id: string }> = async () => {
 
     return {
-        paths: [],
-        fallback: 'blocking'
+        paths: [
+            { params: { id: "62ce31038bcb31677dd29710"} },
+            { params: { id: "62ce31028bcb31677dd2970e"} },
+            { params: { id: "62ce31038bcb31677dd2970f"} }
+        ],
+        fallback: false
     }
 }
 
