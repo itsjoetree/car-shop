@@ -14,12 +14,13 @@ import type { GetStaticPaths, NextPage } from 'next'
 
 const APP_COLOR = "#5D3FD3"
 
-/** Used to format current of this page. */
+/** Used to format currency of this page. */
 const currencyFormatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
 });
 
+/** Used to format numbers of this page. */
 const numericFormatter = new Intl.NumberFormat('en-US')
 
 type RatingBarProps = {
