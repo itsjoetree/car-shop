@@ -5,14 +5,13 @@ import Image from 'next/image'
 import React from 'react'
 import ExploreInventoryButton from '../../components/ExploreInventoryButton'
 import axios from 'axios'
-import { Box, Button, Card, Grid, Typography } from '@mui/material'
+import { Box, Button, Card, Grid, List, ListItem, ListItemText, Typography } from '@mui/material'
 import { Container } from '@mui/system'
-import { Star, StarHalf } from '@mui/icons-material'
+import { Star, StarHalf, StarOutline } from '@mui/icons-material'
 import { ICar } from '../../models/Car'
 import { ReactNode } from 'react'
-import type { GetStaticPaths, NextPage } from 'next'
-
-const APP_COLOR = "#5D3FD3"
+import type { GetStaticPaths } from 'next'
+import { APP_COLOR } from '../_app'
 
 /** Used to format currency of this page. */
 const currencyFormatter = new Intl.NumberFormat('en-US', {
@@ -36,6 +35,9 @@ const RatingBar = ({ rating }: RatingBarProps) => {
         const stars = new Array(parseInt(nums[0])).fill(<Star fontSize="medium" sx={{ color: APP_COLOR }} />);
 
         if (nums.length > 1 && parseInt(nums[1]) >= 5) stars.push(<StarHalf fontSize="medium" sx={{ color: APP_COLOR }} />)
+
+        const remainder = 5 - stars.length
+        if (remainder > 0) stars.push(new Array(remainder).fill(<StarOutline fontSize="medium" sx={{ color: APP_COLOR }} />))
 
         return stars
     }
@@ -78,7 +80,39 @@ const CarPreview = (props: CarPreview) => {
         </Card></Link>
 }
 
-const CarDetails: NextPage = ({ car }: any) => {
+type CarDetailsLIProps = {
+    name: string,
+    value: number | string
+}
+
+const currencyFormattedProps = ["Price"]
+const numericFormattedProps = ["Mileage"]
+
+const CarDetailLI = ({ name, value }: CarDetailsLIProps) => {
+
+    if (typeof value === "number" && currencyFormattedProps.indexOf(name) !== -1) value = currencyFormatter.format(value)
+    else if (typeof value === "number" && numericFormattedProps.indexOf(name) !== -1) value = numericFormatter.format(value)
+
+    return (
+        <ListItem sx={{ p: 0 }}>
+            <Box sx={{ mr: 1 }}>
+                <ListItemText sx={{ color: APP_COLOR }}>
+                    <Typography sx={{ fontWeight: "bolder" }}>{name}:</Typography>
+                </ListItemText>
+            </Box>
+
+            <Box>
+                <ListItemText>{value}</ListItemText>
+            </Box>
+        </ListItem>
+    )
+}
+
+type CarDetailsProps = {
+    car: ICar
+}
+
+const CarDetails = ({ car }: CarDetailsProps) => {
     const carIdentifier = `${car.make} ${car.model} ${car.year}`
 
     return (
@@ -89,7 +123,7 @@ const CarDetails: NextPage = ({ car }: any) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Typography sx={{ color: APP_COLOR, fontWeight: "bolder" }} variant="h2" component="h1">
+            <Typography variant="h2" component="h1">
                 {carIdentifier}
             </Typography>
 
@@ -101,20 +135,23 @@ const CarDetails: NextPage = ({ car }: any) => {
                 </Grid>
 
                 <Grid sx={{ mt: 2, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }} item md={4} xs={12}>
-                    <Box>
-                        <Typography>Make: {car.make}</Typography>
-                        <Typography>Model: {car.model}</Typography>
-                        <Typography>Color: {car.color}</Typography>
-                        <Typography>Year: {car.year}</Typography>
-                        <Typography>Price: {currencyFormatter.format(car.price)}</Typography>
-                        <Typography>Mileage: {numericFormatter.format(car.mileage)}</Typography>
-                    </Box>
+                    <List>
+                        {
+                            Object.entries(car)
+                                .filter(kvp => ["make", "model", "color", "year", "price", "mileage"].indexOf(kvp[0]) != -1)
+                                .map(kvp => <CarDetailLI
+                                    key={kvp[0]}
+                                    name={kvp[0].charAt(0).toUpperCase() + kvp[0].slice(1)}
+                                    value={kvp[1]}
+                                />)
+                        }
+                    </List>
 
                     <Button sx={{ backgroundColor: APP_COLOR, color: "white", mt: "1em", width: "10rem", "&:hover": { backgroundColor: "#5139ac" } }} href="tel:000-000-0000">Inquire</Button>
                 </Grid>
             </Grid>
 
-            <Typography sx={{ color: APP_COLOR, fontWeight: "bolder", textAlign: "center", mt: "1em" }} variant="h4" component="h2">
+            <Typography sx={{ textAlign: "center", mt: "1em" }} variant="h4" component="h2">
                 explore other options?
             </Typography>
 
@@ -145,9 +182,9 @@ export const getStaticPaths: GetStaticPaths<{ id: string }> = async () => {
 
     return {
         paths: [
-            { params: { id: "62ce31038bcb31677dd29710"} },
-            { params: { id: "62ce31028bcb31677dd2970e"} },
-            { params: { id: "62ce31038bcb31677dd2970f"} }
+            { params: { id: "62ce31038bcb31677dd29710" } },
+            { params: { id: "62ce31028bcb31677dd2970e" } },
+            { params: { id: "62ce31038bcb31677dd2970f" } }
         ],
         fallback: false
     }

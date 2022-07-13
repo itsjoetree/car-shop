@@ -7,8 +7,8 @@ import axios from 'axios'
 import { Box, Card, Grid, Typography } from '@mui/material'
 import { Container } from '@mui/system'
 import { ICar } from '../models/Car'
+import { APP_COLOR } from './_app'
 
-const APP_COLOR = "#5D3FD3"
 const BODY_TEXT = "Select one of our vehicles to learn more about them!"
 
 type CarPreview = {

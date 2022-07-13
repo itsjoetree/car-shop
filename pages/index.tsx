@@ -8,8 +8,8 @@ import { ReactNode } from 'react'
 import { Box, Card, Grid, Typography } from '@mui/material'
 import { Container } from '@mui/system'
 import { EnergySavingsLeaf } from '@mui/icons-material'
+import { APP_COLOR } from './_app'
 
-const APP_COLOR = "#5D3FD3"
 const BODY_TEXT = "We're a local shop that has a vast inventory for you to explore, find your new vehicle today!"
 
 const coreValues: CoreValue[] = [

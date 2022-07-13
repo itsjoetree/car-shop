@@ -12,6 +12,8 @@ import type { AppProps } from 'next/app'
 import { ThemeProvider } from '@emotion/react'
 import { createTheme, Divider, Drawer, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
 
+export const APP_COLOR = "#5D3FD3"
+
 type NavItem = {
   name: string,
   href: string,
@@ -24,9 +26,7 @@ const NAV_ITEMS: NavItem[] = [
   { name: "Cars", href: "/cars" }
 ];
 
-const APP_COLOR = "#5D3FD3"
-
-function MyApp({ Component, pageProps }: AppProps) {
+const AppNavBar = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -35,8 +35,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        Car Shop
+      <Typography variant="h6" sx={{ color: APP_COLOR, fontWeight: "bolder", my: 2 }}>
+        <Link href="/">Car Shop</Link>
       </Typography>
       <Divider />
       <List>
@@ -51,26 +51,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     </Box>
   );
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: APP_COLOR
-      }
-    },
-    typography: {
-      h2: {
-        color: APP_COLOR,
-        fontWeight: "bolder"
-      },
-      h4: {
-        color: APP_COLOR,
-        fontWeight: "bolder"
-      }
-    }
-  });
-
-
-  return (<ThemeProvider theme={theme}>
+  return (<>
     <Box sx={{ display: 'flex' }}>
       <AppBar sx={{ backgroundColor: "#5D3FD3" }} component="nav">
         <Toolbar>
@@ -86,9 +67,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            sx={{
+              flexGrow: 1,
+              display: { xs: 'none', sm: 'block' }
+            }}
           >
-            Car Shop
+            <Link href="/">Car Shop</Link>
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {NAV_ITEMS.map((item) => (<Link key={item.name} href={item.href}><Button key={item.name} sx={{ color: '#fff' }}>{item.name}</Button></Link>))}
@@ -113,6 +97,31 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Drawer>
       </Box>
     </Box>
+  </>)
+}
+
+function MyApp({ Component, pageProps }: AppProps) {
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: APP_COLOR
+      }
+    },
+    typography: {
+      h2: {
+        color: APP_COLOR,
+        fontWeight: "bolder"
+      },
+      h4: {
+        color: APP_COLOR,
+        fontWeight: "bolder"
+      }
+    }
+  });
+
+  return (<ThemeProvider theme={theme}>
+    <AppNavBar />
 
     <Box style={{ marginTop: "5em" }}>
       <Component {...pageProps} />
