@@ -1,10 +1,12 @@
-import { Box, Card, Grid, Typography } from '@mui/material'
-import { Container } from '@mui/system'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import Image from 'next/image'
+import axios from 'axios'
+import { Box, Card, Grid, Typography } from '@mui/material'
+import { Container } from '@mui/system'
+import { ICar } from '../models/Car'
 
 const APP_COLOR = "#5D3FD3"
 const BODY_TEXT = "Select one of our vehicles to learn more about them!"
@@ -38,13 +40,7 @@ const CarPreview = (props: CarPreview) => {
     </Card></Link>
 }
 
-const cars: CarPreview[] = [
-    {id: "1", make: "Chevy", model: "Malibu", year: 2010, imgName: "malibu2010.webp"},
-    {id: "2", make: "Chevy", model: "Trailblazer", year: 2022, imgName: "tailblazer2022.png"},
-    {id: "3", make: "Tesla", model: "Model S", year: 2022, imgName: "tesla2022.webp"}
-]
-
-const Cars: NextPage = () => {
+const Cars: NextPage = ({cars} : any) => {
   return (
     <Container sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}} className={styles.container}>
       <Head>
@@ -61,13 +57,13 @@ const Cars: NextPage = () => {
         </Typography>
       </Box>
 
-      <Typography sx={{mt: "1em"}} variant="h4" component="h2">Inventory</Typography>
+      <Typography sx={{mt: "1em", mb: ".5em"}} variant="h4" component="h2">Inventory</Typography>
 
         <Grid container>
             {
-                cars.map(c => <Grid sx={{display: "flex", justifyContent: "center", alignItems: "center", mb: 2}} key={c.id} item md={4} xs={12}>
+                cars.map((c: ICar) => <Grid sx={{display: "flex", justifyContent: "center", alignItems: "center", mb: 2}} key={c._id} item md={4} xs={12}>
                     <CarPreview
-                        id={c.id}
+                        id={c._id}
                         make={c.make}
                         model={c.model}
                         year={c.year}
@@ -81,3 +77,22 @@ const Cars: NextPage = () => {
 }
 
 export default Cars
+
+export async function getStaticProps({ params } : any) {
+
+    try {
+        const response = await axios.get(process.env.HOST + "/api/cars/")
+        const cars: ICar[] = response.data
+
+        return {
+            props: {
+                cars
+            }
+        }
+    }
+    catch (err) {
+        return {
+            notFound: true
+        }
+    }
+}

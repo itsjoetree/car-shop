@@ -1,16 +1,16 @@
 import '../styles/globals.css'
-import type { AppProps } from 'next/app'
 import Box from '@mui/material/Box'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from '@mui/icons-material/Menu'
 import React from 'react'
 import Link from 'next/link'
-import { createTheme, Divider, Drawer, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
+import type { AppProps } from 'next/app'
 import { ThemeProvider } from '@emotion/react'
+import { createTheme, Divider, Drawer, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
 
 type NavItem = {
   name: string,

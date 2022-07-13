@@ -1,13 +1,13 @@
-import { Box, Button, Card, Grid, Typography } from '@mui/material'
-import { Container } from '@mui/system'
-import { EnergySavingsLeaf } from '@mui/icons-material'
-import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import AddCardIcon from '@mui/icons-material/AddCard'
 import PhoneIcon from '@mui/icons-material/Phone'
 import ExploreInventoryButton from '../components/ExploreInventoryButton'
+import type { NextPage } from 'next'
 import { ReactNode } from 'react'
+import { Box, Card, Grid, Typography } from '@mui/material'
+import { Container } from '@mui/system'
+import { EnergySavingsLeaf } from '@mui/icons-material'
 
 const APP_COLOR = "#5D3FD3"
 const BODY_TEXT = "We're a local shop that has a vast inventory for you to explore, find your new vehicle today!"
@@ -47,12 +47,12 @@ type CoreValue = {
 
 const CoreValuesCard = (props: CoreValue) => {
   return (<Card sx={CARD_STYLES}>
-    <Box sx={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
       {props.icon}
     </Box>
 
-    <Typography sx={{mt: "1em"}} variant="h6">{props.title}</Typography>
-    
+    <Typography sx={{ mt: "1em" }} variant="h6">{props.title}</Typography>
+
     <Typography>
       {props.body}
     </Typography>
@@ -61,7 +61,7 @@ const CoreValuesCard = (props: CoreValue) => {
 
 const Home: NextPage = () => {
   return (
-    <Container sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}} className={styles.container}>
+    <Container sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }} className={styles.container}>
       <Head>
         <title>Home - Car Shop</title>
         <meta name="description" content="" />
@@ -70,17 +70,17 @@ const Home: NextPage = () => {
 
       <Typography variant="h2" component="h1">Car Shop</Typography>
 
-      <Box sx={{maxWidth: 500}}>
-        <Typography sx={{textAlign: "center"}}>
+      <Box sx={{ maxWidth: 500 }}>
+        <Typography sx={{ textAlign: "center" }}>
           {BODY_TEXT}
         </Typography>
       </Box>
 
-      <ExploreInventoryButton sx={{mt: "1em"}} />
+      <ExploreInventoryButton sx={{ mt: "1em" }} />
 
-      <Grid sx={{mt: "1em"}} container>
+      <Grid sx={{ mt: "1em" }} container>
         {
-          coreValues.map(cv => <Grid key={cv.title} sx={{mb: 2}} item md={4} sm={12} xs={12}>
+          coreValues.map(cv => <Grid key={cv.title} sx={{ mb: 2 }} item md={4} sm={12} xs={12}>
             <CoreValuesCard
               title={cv.title}
               body={cv.body}
@@ -90,11 +90,11 @@ const Home: NextPage = () => {
         }
       </Grid>
 
-      <Typography sx={{textAlign: "center"}} variant="h4" component="h2">
+      <Typography sx={{ textAlign: "center" }} variant="h4" component="h2">
         ready to explore?
       </Typography>
-      
-      <ExploreInventoryButton sx={{mt: "1em", mb: "1em"}} />
+
+      <ExploreInventoryButton sx={{ mt: "1em", mb: "1em" }} />
     </Container>
   )
 }
